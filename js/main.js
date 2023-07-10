@@ -19,18 +19,29 @@ L’utente potrebbe decidere di utilizzare un codice promozionale tra i seguenti
 - POCIE24
 
 Se l’utente inserisce un codice promozionale valido, ha diritto ad uno sconto del 25% sul prezzo finale.
+
+
 Se il codice inserito non è valido, il sito deve informare l’utente che il codice non è valido e
-il prezzo finale viene calcolato senza applicare sconti.
+il prezzo finale viene calcolato senza applicare sconti. ---------------------
+
 Il risultato del calcolo del prezzo finale deve essere visualizzato in “forma umana”
 (con 2 decimali e il simbolo dell’euro) in un apposito tag HTML appena sotto il bottone send.
+
+
 Alcuni consigli
 - Ricordatevi che se non state bene attenti, Javascript vi fa le magie con i tipi :cara_ligeramente_sonriente:
 - Ricordatevi che il form ha un comportamento “strano” quando fate click sul
 bottone Send che è di tipo submit (type=submit).
 */
-let discountCodeArray = ["YHDNU32", "JANJC63", "PWKCN25", "SJDPO96", "POCIE24"];
 
 document.getElementById("buttonSend").addEventListener("click", function () {
+  let discountCodeArray = [
+    "YHDNU32",
+    "JANJC63",
+    "PWKCN25",
+    "SJDPO96",
+    "POCIE24",
+  ];
   let hoursrequested = document.getElementById("inputHoursRequested").value; //10
   let typeOfWork = document.getElementById("inputTypeOfWork").value; //backend
   let pricePreventive0 = 0;
@@ -46,12 +57,11 @@ document.getElementById("buttonSend").addEventListener("click", function () {
   //-------------------------------Functions----------------------------------
 
   function DiscountCodeInArray(boxArray, contentBox) {
-    for (let i = 0; i < boxArray.length; ++i) {
-      if (contentBox === boxArray[i]) {
+    for (let i = 0; i <= boxArray.length; ++i) {
+      if (boxArray.includes(contentBox)) {
         console.log("Codice trovato");
-        return (document.getElementById(
-          "userPricePreventivo"
-        ).innerHTML = `<h3>Il Prezzo Finale è di: €${priceWithDiscountFunction(
+        return (document.getElementById("userPricePreventivo").innerHTML = `
+        <h3>Il Prezzo Finale è di: €${priceWithDiscountFunction(
           pricePreventive
         )}</h3>`);
         break;
@@ -59,8 +69,9 @@ document.getElementById("buttonSend").addEventListener("click", function () {
         console.log("Codice non trovato");
         return (document.getElementById(
           "userPricePreventivo"
-        ).innerHTML = `<h3>Il Prezzo Finale è di: €${pricePreventive}</h3>`);
-        break;
+        ).innerHTML = `<h3>Codice Non valido</h3>
+            <p>prezzo senza sconto</p>
+        <h3>Il Prezzo Finale è di: €${pricePreventive}</h3>`);
       }
     }
   }
