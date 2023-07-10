@@ -17,6 +17,7 @@ L’utente potrebbe decidere di utilizzare un codice promozionale tra i seguenti
 - PWKCN25
 - SJDPO96
 - POCIE24
+
 Se l’utente inserisce un codice promozionale valido, ha diritto ad uno sconto del 25% sul prezzo finale.
 Se il codice inserito non è valido, il sito deve informare l’utente che il codice non è valido e
 il prezzo finale viene calcolato senza applicare sconti.
@@ -27,18 +28,50 @@ Alcuni consigli
 - Ricordatevi che il form ha un comportamento “strano” quando fate click sul
 bottone Send che è di tipo submit (type=submit).
 */
-
 let discountCodeArray = ["YHDNU32", "JANJC63", "PWKCN25", "SJDPO96", "POCIE24"];
 
 document.getElementById("buttonSend").addEventListener("click", function () {
-  let hoursrequested = document.getElementById("inputHoursRequested").value;
-  let typeOfWork = document.getElementById("inputTypeOfWork").value;
-  let PricePreventive = 0;
+  let hoursrequested = document.getElementById("inputHoursRequested").value; //10
+  let typeOfWork = document.getElementById("inputTypeOfWork").value; //backend
+  let pricePreventive0 = 0;
+  let pricePreventive = preventivoLavoro(
+    hoursrequested,
+    typeOfWork,
+    pricePreventive0
+  ); //0 ---> 205€
 
-  let prezzoPreventivo = (document.getElementById(
-    "userPricePreventivo"
-  ).innerHTML = `<h3>Il Prezzo finale è di: €
-  ${preventivoLavoro(hoursrequested, typeOfWork, PricePreventive)}</h3>`);
+  let discountCode = document.getElementById("inputDiscountCode").value;
+  let priceDiscount = DiscountCodeInArray(discountCodeArray, discountCode);
+
+  //-------------------------------Functions----------------------------------
+
+  function DiscountCodeInArray(boxArray, contentBox) {
+    for (let i = 0; i < boxArray.length; ++i) {
+      if (contentBox === boxArray[i]) {
+        console.log("Codice trovato");
+        return (document.getElementById(
+          "userPricePreventivo"
+        ).innerHTML = `<h3>Il Prezzo Finale è di: €${priceWithDiscountFunction(
+          pricePreventive
+        )}</h3>`);
+        break;
+      } else {
+        console.log("Codice non trovato");
+        return (document.getElementById(
+          "userPricePreventivo"
+        ).innerHTML = `<h3>Il Prezzo Finale è di: €${pricePreventive}</h3>`);
+        break;
+      }
+    }
+  }
+
+  function priceWithDiscountFunction(prezzopreventivo) {
+    let prezzoSconto = (
+      prezzopreventivo -
+      (prezzopreventivo / 100) * 25
+    ).toFixed(2);
+    return prezzoSconto;
+  }
 
   function preventivoLavoro(oreRichieste, tipolavoro, preventivo) {
     if (tipolavoro === "backend") preventivo = oreRichieste * 20.5;
