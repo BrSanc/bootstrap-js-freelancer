@@ -28,17 +28,23 @@ Alcuni consigli
 bottone Send che è di tipo submit (type=submit).
 */
 
+let discountCodeArray = ["YHDNU32", "JANJC63", "PWKCN25", "SJDPO96", "POCIE24"];
+
 document.getElementById("buttonSend").addEventListener("click", function () {
   let hoursrequested = document.getElementById("inputHoursRequested").value;
   let typeOfWork = document.getElementById("inputTypeOfWork").value;
   let PricePreventive = 0;
 
-  let prezzoPreventivo = preventivoLavoro(hoursrequested, typeOfWork, PricePreventive);
+  let prezzoPreventivo = (document.getElementById(
+    "userPricePreventivo"
+  ).innerHTML = `<h3>Il Prezzo finale è di: €
+  ${preventivoLavoro(hoursrequested, typeOfWork, PricePreventive)}</h3>`);
 
   function preventivoLavoro(oreRichieste, tipolavoro, preventivo) {
     if (tipolavoro === "backend") preventivo = oreRichieste * 20.5;
     if (tipolavoro === "frontend") preventivo = oreRichieste * 15.3;
     if (tipolavoro === "analysis") preventivo = oreRichieste * 33.6;
     console.log(`Il prezzo del Preventivo è: ${preventivo}`);
+    return preventivo;
   }
 });
