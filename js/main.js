@@ -1,11 +1,16 @@
 /*
 Continuiamo l’esercizio Bootstrap Freelancer e aggiungiamo la componente js di interazione con l’utente.
+
+
 Quando l’utente fa click sul bottone “send” del form, il sito deve calcolare l’ammontare
 del preventivo per le ore di lavoro richieste.
+
 Il prezzo orario per una commissione varia in questo modo:
 - se la commissione riguarda lo sviluppo backend il prezzo orario è di 20.5€ l’ora
 - se la commissione riguarda lo sviluppo frontend il prezzo orario è di 15.3€ l’ora
 - se la commissione riguarda l’analisi progettuale di un progetto il prezzo orario è di 33.6€
+
+
 L’utente potrebbe decidere di utilizzare un codice promozionale tra i seguenti:
 - YHDNU32
 - JANJC63
@@ -22,3 +27,18 @@ Alcuni consigli
 - Ricordatevi che il form ha un comportamento “strano” quando fate click sul
 bottone Send che è di tipo submit (type=submit).
 */
+
+document.getElementById("buttonSend").addEventListener("click", function () {
+  let hoursrequested = document.getElementById("inputHoursRequested").value;
+  let typeOfWork = document.getElementById("inputTypeOfWork").value;
+  let PricePreventive = 0;
+
+  let prezzoPreventivo = preventivoLavoro(hoursrequested, typeOfWork, PricePreventive);
+
+  function preventivoLavoro(oreRichieste, tipolavoro, preventivo) {
+    if (tipolavoro === "backend") preventivo = oreRichieste * 20.5;
+    if (tipolavoro === "frontend") preventivo = oreRichieste * 15.3;
+    if (tipolavoro === "analysis") preventivo = oreRichieste * 33.6;
+    console.log(`Il prezzo del Preventivo è: ${preventivo}`);
+  }
+});
